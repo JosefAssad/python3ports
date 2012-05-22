@@ -1,4 +1,4 @@
 python3ports
 ============
 
-code the the @python3ports twitter bot
+code for the @python3ports twitter bot
