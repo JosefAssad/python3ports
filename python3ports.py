@@ -79,7 +79,11 @@ def update():
         try:
             p_name = unicode(i['name'])
             c.execute("INSERT INTO packages(name) values (?)", (p_name,))
-            twit.statuses.update(status="%s has been ported to #python3 %s" % (i['name'], i['link']))
+            try:
+                twit.statuses.update(status="%s has been ported to #python3 %s" % (i['name'], i['link']))
+            except twitter.api.TwitterHTTPError:
+                # can't be arsed to handle properly right now, there's an F1 race on. Cross fingers.
+                pass
         except IntegrityError:
             pass
             #print "skipping %s" % i['name']
