@@ -24,6 +24,7 @@ from twitter.api import Twitter, TwitterHTTPError
 from twitter.oauth import OAuth
 from optparse import OptionParser
 
+import config.py
 
 usage= u'''usage: %prog [options] arg
 
@@ -44,10 +45,10 @@ Subsequently, -u for updating is to be used.
 db = u''
 # the following four strings are obtained from twitter
 # for API usage
-twitter_token=u''
-twitter_token_secret=u''
-twitter_consumer_key=u''
-twitter_consumer_secret=u''
+twitter_token=config.twitter_token
+twitter_token_secret=config.twitter_token_secret
+twitter_consumer_key=config.twitter_consumer_key
+twitter_consumer_secret=config.twitter_consumer_secret
 
 def fetch_p3packages():
     python3_pkgs_url = "http://pypi.python.org/pypi?:action=browse&c=533&show=all"
@@ -78,7 +79,10 @@ def update():
     for i in fetch_p3packages():
         try:
             p_name = unicode(i['name'])
-            c.execute("INSERT INTO packages(name) values (?)", (p_name,))
+            try:
+                c.execute("INSERT INTO packages(name) values (?)", (p_name,))
+            except UnicodeDecodeError:
+                print p_name
             try:
                 twit.statuses.update(status="%s has been ported to #python3 %s" % (i['name'], i['link']))
             except TwitterHTTPError:
