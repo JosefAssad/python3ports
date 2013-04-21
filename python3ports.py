@@ -77,7 +77,8 @@ def update():
     c = conn.cursor()
     for i in fetch_p3packages():
         try:
-            c.execute("INSERT INTO packages(name) values (?)", (i['name'],))
+            p_name = unicode(i['name'])
+            c.execute("INSERT INTO packages(name) values (?)", (p_name,))
             twit.statuses.update(status="%s has been ported to #python3 %s" % (i['name'], i['link']))
         except IntegrityError:
             pass
