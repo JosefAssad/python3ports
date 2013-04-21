@@ -20,7 +20,7 @@ import BeautifulSoup
 import sqlite3
 from sqlite3 import IntegrityError
 import pdb
-from twitter.api import Twitter
+from twitter.api import Twitter, TwitterHTTPError
 from twitter.oauth import OAuth
 from optparse import OptionParser
 
@@ -81,7 +81,7 @@ def update():
             c.execute("INSERT INTO packages(name) values (?)", (p_name,))
             try:
                 twit.statuses.update(status="%s has been ported to #python3 %s" % (i['name'], i['link']))
-            except twitter.api.TwitterHTTPError:
+            except TwitterHTTPError:
                 # can't be arsed to handle properly right now, there's an F1 race on. Cross fingers.
                 pass
         except IntegrityError:
