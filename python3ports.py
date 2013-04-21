@@ -24,7 +24,7 @@ from twitter.api import Twitter, TwitterHTTPError
 from twitter.oauth import OAuth
 from optparse import OptionParser
 
-import config.py
+import config
 
 usage= u'''usage: %prog [options] arg
 
